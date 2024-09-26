@@ -15,21 +15,25 @@ class Game
 
   def play
     display_instructions
-    until over?
-      guess = @breaker.guess # an array of 4 colors [:red, :green, :white, :blue]
-      feedback = check_guess guess # represented as struct: Guess = Struct.new(:exact, :color_only)
-      @breaker.give_feedback feedback
-      @maker.turn_info feedback
-      @turn += 1
-    end
+    play_turn until over?
     on_game_end
   end
 
-  def over?
-    @turn > TURNS || @guess_correct
+  def play_turn
+    @turn += 1
+    puts "Turn #{@turn} of #{TURNS}"
+    guess = @breaker.guess # an array of 4 colors [:red, :green, :white, :blue]
+    feedback = make_feedback guess # represented as struct: Guess = Struct.new(:exact, :color_only)
+    @breaker.give_feedback feedback
+    @maker.turn_info feedback
+    @guess_correct = feedback.exact == 4
   end
 
-  def check_guess(guess)
+  def over?
+    @turn >= TURNS || @guess_correct
+  end
+
+  def make_feedback(guess)
     feedback = Feedback.new(0, 0)
     feedback.exact += count_exact guess
     feedback.color_only += count_color_only guess
