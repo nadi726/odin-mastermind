@@ -7,4 +7,5 @@ class Codemaker
   def turn_info(feedback); end
 
   def has_won(is_true); end
+  def inform_start; end
 end

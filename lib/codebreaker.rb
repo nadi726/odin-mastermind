@@ -8,6 +8,13 @@ class Codebreaker
     @guesses = [] # list of (guess, feedback)
   end
 
+  def inform_start
+    puts 'You are the codebreaker!'
+    puts 'Enter a guess by typing the first letter of each color.'
+    puts 'For example, to guess Red, Green, Blue, and Yellow, type: rgby'
+    puts
+  end
+
   def make_guess
     guess = nil
     loop do
