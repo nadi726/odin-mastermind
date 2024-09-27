@@ -1,12 +1,18 @@
+# frozen_string_literal: true
+
 require_relative 'codebreaker'
 require_relative 'codemaker'
 require_relative 'feedbacks'
 require 'rainbow/refinement'
 using Rainbow
 
+# A class for handling game flow
 class Game
   TURNS = 12
-  COLORS = %i[red green blue yellow white magenta].freeze
+  COLORS = %i[red green blue yellow magenta white].freeze
+  # Correlate each color to its starting letter
+  COLOR_MAP = COLORS.to_h { |color| [color.to_s[0], color] }.freeze
+
   def initialize
     @maker = nil
     @breaker = nil
@@ -25,7 +31,7 @@ class Game
   def choose_players
     @maker = Codemaker.new
     @breaker = Codebreaker.new
-    @code = @maker.make # an array of 4 colors [:red, :green, :white, :blue]
+    @code = @maker.make
     @maker.inform_start
     @breaker.inform_start
   end
@@ -33,8 +39,8 @@ class Game
   def play_turn
     @turn += 1
     puts "Turn #{@turn} of #{TURNS}"
-    guess = @breaker.make_guess # an array of 4 colors [:red, :green, :white, :blue]
-    feedback = make_feedback guess # represented as struct: Guess = Struct.new(:exact, :color_only)
+    guess = @breaker.make_guess
+    feedback = make_feedback guess
     @breaker.give_feedback feedback
     @maker.turn_info feedback
     @guess_correct = feedback.exact == 4
@@ -44,6 +50,7 @@ class Game
     @turn >= TURNS || @guess_correct
   end
 
+  # @return [Feedback] the feedback for the given guess, represented as exact and color_only counts
   def make_feedback(guess)
     feedback = Feedback.new(0, 0)
     feedback.exact += count_exact guess
@@ -60,6 +67,7 @@ class Game
     # Don't count exact matches
     remaining_guess = guess.select.with_index { |_, i| guess[i] != @code[i] }
     remaining_code = @code.select.with_index { |_, i| guess[i] != @code[i] }
+
     COLORS.sum { |color| [remaining_guess.count(color), remaining_code.count(color)].min }
   end
 
@@ -92,7 +100,7 @@ class Game
   end
 
   def on_game_end
-    @breaker.has_won @guess_correct
-    @maker.has_won !@guess_correct
+    @breaker.report_outcome @guess_correct
+    @maker.report_outcome !@guess_correct
   end
 end

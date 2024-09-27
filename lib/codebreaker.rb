@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require_relative 'input'
 require 'rainbow/refinement'
 using Rainbow
 
+# A human codebreaker: prompts the user for a guess and displaying relevent info
 class Codebreaker
-  COLOR_MAP = { 'r' => :red, 'g' => :green, 'b' => :blue, 'y' => :yellow, 'm' => :magenta, 'w' => :white }.freeze
   def initialize
     @guesses = [] # list of (guess, feedback)
   end
@@ -15,12 +17,16 @@ class Codebreaker
     puts
   end
 
+  # Prompt the player to guess the code by entering 4 letters,
+  # each corresponding to the first letter of a color
+  # Loops until a valid guess is made
+  # @return [Array] a 4-element array of colors
   def make_guess
     guess = nil
     loop do
       guess_str = Input.get 'Make a guess: '
-      guess = guess_str.chars.map { |c| COLOR_MAP.fetch(c.downcase, nil) }
-      break unless guess.include?(nil)
+      guess = guess_str.chars.map { |c| Game::COLOR_MAP.fetch(c.downcase, nil) }.compact
+      break unless guess.count != 4
 
       puts 'Invalid guess input'
     end
@@ -45,8 +51,8 @@ class Codebreaker
     (exacts + color_onlys).shuffle.join(' ')
   end
 
-  def has_won(is_true)
-    if is_true
+  def report_outcome(is_winner)
+    if is_winner
       puts 'You won!!1'
     else
       puts 'You lost...'
