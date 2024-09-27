@@ -22,7 +22,7 @@ class Game
   def play_turn
     @turn += 1
     puts "Turn #{@turn} of #{TURNS}"
-    guess = @breaker.guess # an array of 4 colors [:red, :green, :white, :blue]
+    guess = @breaker.make_guess # an array of 4 colors [:red, :green, :white, :blue]
     feedback = make_feedback guess # represented as struct: Guess = Struct.new(:exact, :color_only)
     @breaker.give_feedback feedback
     @maker.turn_info feedback
@@ -47,9 +47,8 @@ class Game
 
   def count_color_only(guess)
     # Don't count exact matches
-    remaining_guess = guess.each_index.filter { |i| guess[i] == @code[i] }
-    remaining_code = @code.each_index.filter { |i| guess[i] == @code[i] }
-
+    remaining_guess = guess.select.with_index { |_, i| guess[i] != @code[i] }
+    remaining_code = @code.select.with_index { |_, i| guess[i] != @code[i] }
     COLORS.sum { |color| [remaining_guess.count(color), remaining_code.count(color)].min }
   end
 
