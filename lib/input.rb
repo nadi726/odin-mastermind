@@ -8,4 +8,14 @@ module Input
     $stdout.flush
     gets.chomp
   end
+
+  def self.get_code(text)
+    loop do
+      code_str = Input.get text
+      code = code_str.chars.map { |c| Game::COLOR_MAP.fetch(c.downcase, nil) }.compact
+      return code unless code.count != 4
+
+      puts 'Invalid input'
+    end
+  end
 end

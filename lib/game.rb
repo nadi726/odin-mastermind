@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
-require_relative 'codebreaker'
-require_relative 'codemaker'
+require_relative 'human_codebreaker'
+require_relative 'computer_codebreaker'
+require_relative 'human_codemaker'
+require_relative 'computer_codemaker'
 require_relative 'feedbacks'
+require_relative 'formatting'
 require 'rainbow/refinement'
 using Rainbow
 
@@ -29,11 +32,9 @@ class Game
   end
 
   def choose_players
-    @maker = Codemaker.new
-    @breaker = Codebreaker.new
+    @maker = HumanCodemaker.new
+    @breaker = ComputerCodebreaker.new
     @code = @maker.make
-    @maker.inform_start
-    @breaker.inform_start
   end
 
   def play_turn
@@ -42,7 +43,6 @@ class Game
     guess = @breaker.make_guess
     feedback = make_feedback guess
     @breaker.give_feedback feedback
-    @maker.turn_info feedback
     @guess_correct = feedback.exact == 4
   end
 
@@ -100,7 +100,11 @@ class Game
   end
 
   def on_game_end
-    @breaker.report_outcome @guess_correct
-    @maker.report_outcome !@guess_correct
+    puts "The code was: #{Formatting.code @code}"
+    if @guess_correct
+      puts "The codebreaker #{@breaker.name} won!!!"
+    else
+      puts "The codemaker #{@maker.name} won!!!"
+    end
   end
 end
