@@ -3,6 +3,7 @@
 require_relative 'input'
 require_relative 'player'
 
+# A human codemaker: prompts the user for a secret code
 class HumanCodemaker < Player
   def initialize
     super('Human player')
