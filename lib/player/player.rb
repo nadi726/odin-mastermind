@@ -7,4 +7,6 @@ class Player
   def initialize(name)
     @name = name
   end
+
+  def inform_start; end
 end

@@ -6,6 +6,7 @@ require_relative 'player/human_codemaker'
 require_relative 'player/computer_codemaker'
 require_relative 'feedback'
 require_relative 'code'
+require_relative 'input'
 require 'rainbow/refinement'
 using Rainbow
 
@@ -29,8 +30,18 @@ class Game
   end
 
   def choose_players
-    @maker = ComputerCodemaker.new
-    @breaker = HumanCodebreaker.new
+    choice = nil
+    choice = (Input.get 'Do you want to be the [1] Codemaker or [2] Codebreaker? ').strip until %w[1 2].include? choice
+    puts
+    if choice == '1'
+      @maker = HumanCodemaker.new
+      @breaker = ComputerCodebreaker.new
+    else
+      @maker = ComputerCodemaker.new
+      @breaker = HumanCodebreaker.new
+    end
+    @maker.inform_start
+    @breaker.inform_start
     @code = @maker.create_code
   end
 

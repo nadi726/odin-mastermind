@@ -12,11 +12,15 @@ class HumanCodemaker < Player
   # Prompt the player for a secret code
   # @return [Code] a code of 4 colors
   def create_code
-    puts 'Choose a code by typing the first letter of each color.'
-    puts "For example, to choose the code #{Code.new %i[red green blue yellow]}, type: rgby"
-    puts
     code = Input.get_code 'Your code: '
     puts "Your code is: #{code}"
     code
+  end
+
+  def inform_start
+    puts 'You are the codemaker!'
+    puts 'Choose a code by typing the first letter of each color.'
+    puts "For example, to choose the code #{Code.new %i[red green blue yellow]}, type: rgby"
+    puts
   end
 end
