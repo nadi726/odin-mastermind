@@ -15,7 +15,7 @@ class HumanCodebreaker < Player
   # Prompt the player to guess the code by entering 4 letters,
   # each corresponding to the first letter of a color
   # Loops until a valid guess is made
-  # @return [Array] a 4-element array of colors
+  # @return [Code] a code of 4 colors
   def make_guess
     puts 'Enter a guess by typing the first letter of each color.'
     puts 'For example, to guess Red, Green, Blue, and Yellow, type: rgby'

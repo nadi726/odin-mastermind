@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'code'
+
 # Helper module for the input function
 module Input
   # Input with a text directly before, on the same line
@@ -9,13 +11,19 @@ module Input
     gets.chomp
   end
 
+  # Get a 4 letter code, with each letter signifying a color,
+  # and convert to an array of 4 colors.
+  # Loops until a valid code is given
+  # @return [Code] a code of 4 colors
   def self.get_code(text)
     loop do
       code_str = Input.get text
-      code = code_str.chars.map { |c| Game::COLOR_MAP.fetch(c.downcase, nil) }.compact
-      return code unless code.count != 4
-
-      puts 'Invalid input'
+      begin
+        code = Code.from_str code_str
+        return code
+      rescue ArgumentError => e
+        puts e
+      end
     end
   end
 end

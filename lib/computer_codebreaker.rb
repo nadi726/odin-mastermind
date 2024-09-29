@@ -1,5 +1,6 @@
 require_relative 'player'
 require_relative 'formatting'
+require_relative 'code'
 
 class ComputerCodebreaker < Player
   def initialize
@@ -9,7 +10,7 @@ class ComputerCodebreaker < Player
 
   def make_guess
     # TODO
-    @guess = %i[red green blue yellow]
+    @guess = Code.new %i[red green blue yellow]
     @guess
   end
 

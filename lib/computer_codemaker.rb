@@ -1,4 +1,5 @@
 require_relative 'player'
+require_relative 'code'
 
 class ComputerCodemaker < Player
   def initialize
@@ -6,8 +7,8 @@ class ComputerCodemaker < Player
   end
 
   # Creates a random code for the game.
-  # @return [Array] a 4-element array of colors from {Game::COLORS}
+  # @return [Code] a code of 4 colors
   def make
-    Array.new(4) { Game::COLORS.sample }
+    Code.new(Array.new(4) { Code::ALLOWED_COLORS.sample })
   end
 end

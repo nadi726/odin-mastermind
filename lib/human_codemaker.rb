@@ -7,6 +7,8 @@ class HumanCodemaker < Player
     super('Human player')
   end
 
+  # Prompt the player for a secret code
+  # @return [Code] a code of 4 colors
   def make
     puts 'Choose a code by typing the first letter of each color.'
     puts "For example, to choose the code #{Formatting.code(%i[red green blue yellow])}, type: rgby"

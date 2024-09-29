@@ -6,15 +6,13 @@ require_relative 'human_codemaker'
 require_relative 'computer_codemaker'
 require_relative 'feedbacks'
 require_relative 'formatting'
+require_relative 'code'
 require 'rainbow/refinement'
 using Rainbow
 
 # A class for handling game flow
 class Game
   TURNS = 12
-  COLORS = %i[red green blue yellow magenta white].freeze
-  # Correlate each color to its starting letter
-  COLOR_MAP = COLORS.to_h { |color| [color.to_s[0], color] }.freeze
 
   def initialize
     @maker = nil
@@ -68,7 +66,7 @@ class Game
     remaining_guess = guess.select.with_index { |_, i| guess[i] != @code[i] }
     remaining_code = @code.select.with_index { |_, i| guess[i] != @code[i] }
 
-    COLORS.sum { |color| [remaining_guess.count(color), remaining_code.count(color)].min }
+    Code::ALLOWED_COLORS.sum { |color| [remaining_guess.count(color), remaining_code.count(color)].min }
   end
 
   def display_instructions # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
@@ -83,7 +81,7 @@ class Game
     puts
     puts 'The code consists of 4 colors, chosen from 6 available colors,'
     puts 'with possible repetitions.'
-    puts "The available colors are: #{format_colors}"
+    puts "The available colors are: #{Code.format_allowed_colors}"
     puts "You have #{TURNS} turns to guess the code."
     puts
     puts 'Feedback is provided for each guess:'
@@ -93,10 +91,6 @@ class Game
     puts
     puts 'Good luck!'
     puts
-  end
-
-  def format_colors
-    COLORS.map { |c| c.to_s.color(c) }.join(', ')
   end
 
   def on_game_end
