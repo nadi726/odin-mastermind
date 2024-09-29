@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'input'
 require_relative 'player'
+require_relative '../input'
 
 # A human codebreaker: prompts the user for a guess and displaying relevent info
 class HumanCodebreaker < Player
@@ -9,11 +9,9 @@ class HumanCodebreaker < Player
     super('Human player')
   end
 
-  # Prompt the player to guess the code by entering 4 letters,
-  # each corresponding to the first letter of a color
-  # Loops until a valid guess is made
+  # Prompt the player to guess the code
   # @return [Code] a code of 4 colors
-  def make_guess
+  def guess_code
     puts 'Enter a guess by typing the first letter of each color.'
     puts "For example, to guess #{Code.new %i[red green blue yellow]}, type: rgby"
     puts
@@ -21,7 +19,7 @@ class HumanCodebreaker < Player
     @guess
   end
 
-  def give_feedback(feedback)
+  def receive_feedback(feedback)
     puts "Your guess: #{@guess} | Feedback: #{feedback}"
     puts
   end

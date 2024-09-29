@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'human_codebreaker'
-require_relative 'computer_codebreaker'
-require_relative 'human_codemaker'
-require_relative 'computer_codemaker'
+require_relative 'player/human_codebreaker'
+require_relative 'player/computer_codebreaker'
+require_relative 'player/human_codemaker'
+require_relative 'player/computer_codemaker'
 require_relative 'feedback'
 require_relative 'code'
 require 'rainbow/refinement'
@@ -29,43 +29,22 @@ class Game
   end
 
   def choose_players
-    @maker = HumanCodemaker.new
-    @breaker = ComputerCodebreaker.new
-    @code = @maker.make
+    @maker = ComputerCodemaker.new
+    @breaker = HumanCodebreaker.new
+    @code = @maker.create_code
   end
 
   def play_turn
     @turn += 1
     puts "Turn #{@turn} of #{TURNS}"
-    guess = @breaker.make_guess
-    feedback = make_feedback guess
-    @breaker.give_feedback feedback
+    guess = @breaker.guess_code
+    feedback = Feedback.from_guess(guess, @code)
+    @breaker.receive_feedback feedback
     @guess_correct = feedback.exact == 4
   end
 
   def over?
     @turn >= TURNS || @guess_correct
-  end
-
-  # @return [Feedback] the feedback for the given guess, represented as exact and color_only counts
-  def make_feedback(guess)
-    feedback = Feedback.new(0, 0)
-    feedback.exact += count_exact guess
-    feedback.color_only += count_color_only guess
-    feedback
-  end
-
-  def count_exact(guess)
-    guess.each_index.filter { |i| guess[i] == @code[i] }
-         .count
-  end
-
-  def count_color_only(guess)
-    # Don't count exact matches
-    remaining_guess = guess.select.with_index { |_, i| guess[i] != @code[i] }
-    remaining_code = @code.select.with_index { |_, i| guess[i] != @code[i] }
-
-    Code::ALLOWED_COLORS.sum { |color| [remaining_guess.count(color), remaining_code.count(color)].min }
   end
 
   def display_instructions # rubocop:disable Metrics/MethodLength,Metrics/AbcSize

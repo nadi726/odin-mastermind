@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'player'
-require_relative 'code'
+require_relative '../code'
 
 # A computer codebreaker: randomly guesses a code and takes feedback
 class ComputerCodebreaker < Player
@@ -10,13 +10,13 @@ class ComputerCodebreaker < Player
     @guesses = []
   end
 
-  def make_guess
+  def guess_code
     # TODO
     @guess = Code.new %i[red green blue yellow]
     @guess
   end
 
-  def give_feedback(feedback)
+  def receive_feedback(feedback)
     puts "Computer guess: #{@guess} | Feedback: #{feedback}"
     puts
     @guesses.push [@current_guess, feedback].freeze

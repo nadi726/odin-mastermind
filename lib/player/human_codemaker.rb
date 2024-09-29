@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'input'
 require_relative 'player'
+require_relative '../input'
 
 # A human codemaker: prompts the user for a secret code
 class HumanCodemaker < Player
@@ -11,7 +11,7 @@ class HumanCodemaker < Player
 
   # Prompt the player for a secret code
   # @return [Code] a code of 4 colors
-  def make
+  def create_code
     puts 'Choose a code by typing the first letter of each color.'
     puts "For example, to choose the code #{Code.new %i[red green blue yellow]}, type: rgby"
     puts
