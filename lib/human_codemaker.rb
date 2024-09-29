@@ -1,8 +1,8 @@
 require_relative 'input'
 require_relative 'formatting'
-require_relative 'codemaker'
+require_relative 'player'
 
-class HumanCodemaker < Codemaker
+class HumanCodemaker < Player
   def initialize
     super('Human player')
   end

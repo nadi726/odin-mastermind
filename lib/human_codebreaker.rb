@@ -4,10 +4,10 @@ require_relative 'input'
 require_relative 'formatting'
 require 'rainbow/refinement'
 using Rainbow
-require_relative 'codebreaker'
+require_relative 'player'
 
 # A human codebreaker: prompts the user for a guess and displaying relevent info
-class HumanCodebreaker < Codebreaker
+class HumanCodebreaker < Player
   def initialize
     super('Human player')
   end

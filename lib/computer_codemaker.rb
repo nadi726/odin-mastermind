@@ -1,3 +1,5 @@
+require_relative 'player'
+
 class ComputerCodemaker < Player
   def initialize
     super('Computer player')
