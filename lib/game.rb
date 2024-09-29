@@ -4,8 +4,7 @@ require_relative 'human_codebreaker'
 require_relative 'computer_codebreaker'
 require_relative 'human_codemaker'
 require_relative 'computer_codemaker'
-require_relative 'feedbacks'
-require_relative 'formatting'
+require_relative 'feedback'
 require_relative 'code'
 require 'rainbow/refinement'
 using Rainbow
@@ -94,7 +93,7 @@ class Game
   end
 
   def on_game_end
-    puts "The code was: #{Formatting.code @code}"
+    puts "The code was: #{@code}"
     if @guess_correct
       puts "The codebreaker #{@breaker.name} won!!!"
     else

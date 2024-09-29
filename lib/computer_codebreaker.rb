@@ -1,5 +1,6 @@
+# frozen_string_literal: true
+
 require_relative 'player'
-require_relative 'formatting'
 require_relative 'code'
 
 class ComputerCodebreaker < Player
@@ -15,7 +16,7 @@ class ComputerCodebreaker < Player
   end
 
   def give_feedback(feedback)
-    puts "Computer guess: #{Formatting.code @guess} | Feedback: #{Formatting.feedback feedback}"
+    puts "Computer guess: #{@guess} | Feedback: #{feedback}"
     puts
     @guesses.push [@current_guess, feedback].freeze
   end

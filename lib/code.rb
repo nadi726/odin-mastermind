@@ -32,4 +32,9 @@ class Code < Array
     colors = str.chars.map { |c| COLOR_MAP.fetch(c.downcase, nil) }
     Code.new colors
   end
+
+  def to_s
+    map { |e| '⬤'.color(e) }
+      .join('  ')
+  end
 end
