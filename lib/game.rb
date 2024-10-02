@@ -33,15 +33,12 @@ class Game
     choice = nil
     choice = (Input.get 'Do you want to be the [1] Codemaker or [2] Codebreaker? ').strip until %w[1 2].include? choice
     puts
-    if choice == '1'
-      @maker = HumanCodemaker.new
-      @breaker = ComputerCodebreaker.new
-    else
-      @maker = ComputerCodemaker.new
-      @breaker = HumanCodebreaker.new
-    end
-    @maker.inform_start
-    @breaker.inform_start
+    @maker, @breaker = if choice == '1'
+                         [HumanCodemaker.new, ComputerCodebreaker.new]
+                       else
+                         [ComputerCodemaker.new, HumanCodebreaker.new]
+                       end
+    [@maker, @breaker].each(&:inform_start)
     @code = @maker.create_code
   end
 

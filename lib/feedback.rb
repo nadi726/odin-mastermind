@@ -19,6 +19,10 @@ class Feedback
     (exacts + color_onlys).shuffle.join(' ')
   end
 
+  def ==(other)
+    exact == other.exact && color_only == other.color_only
+  end
+
   def self.from_guess(guess, code)
     feedback = Feedback.new(0, 0)
     feedback.exact += count_exact(guess, code)
