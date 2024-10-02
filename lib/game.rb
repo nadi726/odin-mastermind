@@ -22,6 +22,8 @@ class Game
     @guess_correct = false
   end
 
+  # Play the whole game.
+  # The main entry point for the game.
   def play
     display_instructions
     choose_players
@@ -29,6 +31,8 @@ class Game
     on_game_end
   end
 
+  # Prompt the player to choose a role, and set up the game accordingly,
+  # with the computer taking the other role
   def choose_players
     choice = nil
     choice = (Input.get 'Do you want to be the [1] Codemaker or [2] Codebreaker? ').strip until %w[1 2].include? choice
@@ -42,6 +46,8 @@ class Game
     @code = @maker.create_code
   end
 
+  # Play a single turn.
+  # The breaker makes a guess, gets feedback, and the game determines whether the guess was correct or not.
   def play_turn
     @turn += 1
     puts "Turn #{@turn} of #{TURNS}"
@@ -79,6 +85,7 @@ class Game
     puts
   end
 
+  # Print an appropriate nessage once the game ends
   def on_game_end
     puts "The code was: #{@code}"
     if @guess_correct

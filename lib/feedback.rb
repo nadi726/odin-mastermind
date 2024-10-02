@@ -13,6 +13,8 @@ class Feedback
     @color_only = color_only
   end
 
+  # Produce a string represenation as randomly-ordered red and white pegs,
+  # corresponding to the number of exact matches and color-only matches
   def to_s
     exacts = Array.new(exact, '●'.red)
     color_onlys = Array.new(color_only, '●'.white)
@@ -23,11 +25,11 @@ class Feedback
     exact == other.exact && color_only == other.color_only
   end
 
+  # Given a guess and a code, produce appropriate feedback
   def self.from_guess(guess, code)
-    feedback = Feedback.new(0, 0)
-    feedback.exact += count_exact(guess, code)
-    feedback.color_only += count_color_only(guess, code)
-    feedback
+    exact = count_exact(guess, code)
+    color_only = count_color_only(guess, code)
+    Feedback.new(exact, color_only)
   end
 
   # Given a guess and a code, count how many exact matches there are
